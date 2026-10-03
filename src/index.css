@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #B4441B;       /* terracotta buttons and left panel */
+  --color-brand-dark: #9A3412;  /* links */
+  --color-ground: #FAF7F2;      /* page background */
+  --color-ink: #1C1917;         /* main text */
+  --color-muted: #57534E;       /* secondary text */
+  --color-line: #D6D3CE;        /* input borders */
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
