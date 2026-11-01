@@ -20,6 +20,7 @@ export function SignupPage() {
     formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
+    defaultValues: { password: "" },
     mode: "onTouched", // validates a field when the user leaves it: good UX for signup
   });
 

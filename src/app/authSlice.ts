@@ -22,12 +22,12 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
     },
-    logout: (state) => {
+    removeCredentials: (state) => {
       state.accessToken = null;
       state.user = null;
     },
   },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, removeCredentials } = authSlice.actions;
 export default authSlice.reducer;

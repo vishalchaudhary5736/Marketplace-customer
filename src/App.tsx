@@ -7,6 +7,15 @@ import { ForgotPasswordPage } from "./pages/ForgotPassword";
 import { ResetPassword } from "./pages/ResetPassword";
 import { PublicRoute } from "./routes/PublicRoute";
 import { PrivateRoute } from "./routes/PrivateRoute";
+import { DashboardPage } from "./pages/Dashboard";
+import { AccountPage } from "./pages/Account/AccountPage";
+import { AccountOverviewPage } from "./pages/Account/AccountOverviewPage";
+import { PersonalInfo } from "./pages/Account/PersonalInfoPage";
+import { OrdersPage } from "./pages/Account/OrdersPage";
+import { SecurityPage } from "./pages/Account/SecurityPage";
+import { WishListPage } from "./pages/Account/WishlistPage";
+import { AddressPage } from "./pages/Account/Addresses";
+import { EditProfile } from "./pages/Account/EditAccountPage";
 
 export default function App() {
   return (
@@ -21,7 +30,17 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
         <Route element={<PrivateRoute />}>
-          <Route path="/home" element={<h1>Its done bro</h1>} />
+          <Route path="/home" element={<DashboardPage />} />
+          <Route path="/account" element={<AccountPage />}>
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route path="overview" element={<AccountOverviewPage />} />
+            <Route path="personal-info" element={<PersonalInfo />} />
+            <Route path="orders" element={<OrdersPage />} />
+            <Route path="security" element={<SecurityPage />} />
+            <Route path="wishlist" element={<WishListPage />} />
+            <Route path="addresses" element={<AddressPage />} />
+            <Route path="edit" element={<EditProfile />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<Navigate to="/login" replace />} />

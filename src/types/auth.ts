@@ -7,15 +7,29 @@ export type User = {
   emailVerifiedAt: string | null;
   isEmailVerified: boolean;
   phone: string | null;
-  phoneVerifiedAt: string | null;
+  mobileVerifiedAt: string | null;
+  isMobileVerified: boolean | null;
   firstName: string;
   lastName: string;
   avatarUrl: string | null;
   role: Role;
+  dob?: string | null;
+  gender?: string | null;
   status: UserStatus;
   lastLoginAt: string | null;
   createdAt: string;
   updatedAt: string;
+  countryCode: string;
+  mobileNumber: string;
+  agreeTerms: boolean;
+  isProfileSkip: boolean;
+  isSubAdmin: boolean | null;
+  lastOrder: string | null;
+  totalOrders: number | null;
+  totalSpent: number | string;
+  twoFactorEnabled: boolean | null;
+  twoFactorSecret: boolean | null;
+  twoFactorSetupCompleted: boolean | null;
 };
 
 export type ApiResponse<T> = {
@@ -119,4 +133,13 @@ export type ResetPasswordPayload = {
   otp: string;
   email: string;
   newPassword: string;
+};
+
+export type LogoutResponse = {
+  success: string;
+  message: string;
+};
+
+export type LogoutPayload = {
+  allDevices: boolean;
 };
