@@ -1,4 +1,3 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type {
   ApiResponse,
   ForgotPasswordResponse,
@@ -11,46 +10,13 @@ import type {
   ResetPasswordPayload,
   ResetPasswordResponse,
   SignupResponse,
-  User,
   VerifyOtpPayload,
   VerifyOtpResponse,
 } from "../types/auth";
 import type { LoginFormValues, SignupFormValues } from "../schemas/auth";
-import type { RootState } from "../app/store";
-import { removeCredentials } from "../app/authSlice";
-const publicEntpoints = [
-  "login",
-  "signup",
-  "resendOtp",
-  "verifyOtp",
-  "forgotPassword",
-  "resetPassword",
-];
+import { baseApi } from "./baseApi";
 
-const rawBaseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_API_URL,
-  prepareHeaders: (headers, { getState, endpoint }) => {
-    const accessToken = (getState() as RootState).auth.accessToken;
-
-    if (!publicEntpoints.includes(endpoint)) {
-      headers.set("Authorization", `Bearer ${accessToken}`);
-    }
-  },
-});
-
-const baseQuery: typeof rawBaseQuery = async (args, api, extraOptions) => {
-  const result = await rawBaseQuery(args, api, extraOptions);
-
-  if (result.error?.status === 401 && !publicEntpoints.includes(api.endpoint)) {
-    api.dispatch(removeCredentials());
-    api.dispatch(authApi.util.resetApiState());
-  }
-  return result;
-};
-
-export const authApi = createApi({
-  reducerPath: "authApi",
-  baseQuery,
+export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<
       LoginResponse,
@@ -102,11 +68,6 @@ export const authApi = createApi({
         message: res.message,
       }),
     }),
-    me: builder.query<User, void>({
-      query: () => "/auth/me",
-      transformResponse: (res: ApiResponse<{ userDetail: User }>) =>
-        res.data.userDetail,
-    }),
     logout: builder.mutation<LogoutResponse, LogoutPayload>({
       query: (body) => ({ url: "/auth/logout", method: "POST", body }),
     }),
@@ -116,7 +77,6 @@ export const authApi = createApi({
 export const {
   useLoginMutation,
   useSignupMutation,
-  useMeQuery,
   useResendOtpMutation,
   useVerifyOtpMutation,
   useForgotPasswordMutation,

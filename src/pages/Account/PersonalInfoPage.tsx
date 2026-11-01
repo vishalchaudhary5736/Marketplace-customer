@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
 import {
   formatDate,
+  getS3Url,
   userNameExtractFirstLetter,
 } from "../../utils/commonFunctions";
 import { Link } from "react-router-dom";
@@ -13,6 +14,8 @@ export function PersonalInfo() {
     userDetail?.firstName,
     userDetail?.lastName,
   );
+
+  const avatar = getS3Url(userDetail?.avatarUrl);
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -49,16 +52,17 @@ export function PersonalInfo() {
           <div className="flex items-center gap-4">
             <div className="relative flex h-22 w-22 shrink-0 items-center justify-center rounded-full bg-[#F7E1D5]">
               {/* <User className="h-12 w-12 text-[rgb(180,68,27)]" /> */}
-              <p className="text-[28px] text-brand">{userIdentifier}</p>
+              {avatar ? (
+                <img src={avatar} />
+              ) : (
+                <p className="text-[28px] text-brand">{userIdentifier}</p>
+              )}
+
               <button
                 type="button"
                 className="absolute right-0 bottom-0 h-7 w-7 bg-[#2a2828] cursor-pointer rounded-full flex items-center justify-center text-white"
               >
-                {userDetail?.avatarUrl ? (
-                  <img src={userDetail.avatarUrl} />
-                ) : (
-                  <Camera className="w-4 h-4" />
-                )}
+                <Camera className="w-4 h-4" />
               </button>
             </div>
             <div className="flex flex-col text-[13px] text-[rgb(87,83,78)]">

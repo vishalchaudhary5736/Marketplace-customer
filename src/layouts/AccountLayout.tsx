@@ -10,6 +10,7 @@ import {
 import { NavLink, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../services/authApi";
+import { baseApi } from "../services/baseApi";
 import { removeCredentials } from "../app/authSlice";
 import toast from "react-hot-toast";
 import type { RootState } from "../app/store";
@@ -29,9 +30,16 @@ export function AccountLayout() {
   const userDetail = useSelector((state: RootState) => state.auth.user);
 
   const handleSubmit = async () => {
-    const apiResponse = await logout({ allDevices: true }).unwrap();
-    dispatch(removeCredentials());
-    toast.success(apiResponse.message);
+    try {
+      const apiResponse = await logout({ allDevices: true }).unwrap();
+      toast.success(apiResponse.message);
+    } catch {
+      // Server logout failed; still log out locally below
+      toast.success("Logged out");
+    } finally {
+      dispatch(removeCredentials());
+      dispatch(baseApi.util.resetApiState());
+    }
   };
   return (
     <div className="flex items-start gap-8">

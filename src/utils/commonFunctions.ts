@@ -25,3 +25,10 @@ export function formatDate(iso?: string) {
     year: "numeric",
   });
 }
+
+export function getS3Url(key?: string | null) {
+  if (!key) return "";
+  if (key.startsWith("http")) return key;
+  const base = import.meta.env.VITE_S3_BASE_URL;
+  return `${base}${key}`;
+}

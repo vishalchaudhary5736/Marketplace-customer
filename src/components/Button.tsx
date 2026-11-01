@@ -16,7 +16,7 @@ export function Button({
 
   return (
     <button
-      className={`h-12 w-full rounded-lg font-semibold transition-colors disabled:cursor-not-allowed disabled:hover:bg-stone-300 ${styles} ${className}`}
+      className={`h-12 w-full rounded-lg cursor-pointer font-semibold transition-colors disabled:cursor-not-allowed disabled:hover:bg-stone-300 ${styles} ${className}`}
       {...props}
     />
   );
